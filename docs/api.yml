@@ -8,6 +8,8 @@ servers:
 paths:
     /books:
         get:
+            tags:
+                - Books
             summary: Get all books
             description: The returned books are ordered by updated datetime.
             operationId: getBooks
@@ -36,6 +38,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Book"
         put:
+            tags:
+                - Books
             summary: Create or update a list of books
             operationId: crupdateBooks
             requestBody:
@@ -57,6 +61,8 @@ paths:
     /authors:
         #TODO2: complete GET (can be filtered by name) - PUT - DELETE
         get:
+            tags:
+                - Authors
             summary: Get all authors
             operationId: getAuthors
             parameters:
@@ -76,6 +82,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Author"
         put:
+            tags:
+                - Authors
             summary: Create or update authors
             operationId: crupdateAuthors
             requestBody:
@@ -95,6 +103,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Author"
         delete:
+            tags:
+                - Authors
             summary: Delete an author by ID
             operationId: deleteAuthor
             parameters:
