@@ -26,8 +26,14 @@ paths:
                   description: Filter return books by given releaseDate
                   required: false
                   schema:
-                      type: string
-                      format: dates
+                      type: object
+                      properties:
+                          from:
+                              type: string
+                              format: date
+                          to:
+                              type: string
+                              format: date
             responses:
                 200:
                     description: The list of filtered books
