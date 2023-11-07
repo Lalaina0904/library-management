@@ -227,3 +227,5 @@ components:
                     enum:
                         - M
                         - F
+            required:
+                - id
