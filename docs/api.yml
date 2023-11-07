@@ -5,12 +5,19 @@ info:
     description: STD22113
 servers:
     - url: https://library.com
+
+# tags:
+#     - name: Books
+#       description: The books API
+#     - name: Authors
+#       description: The authors API
+
 paths:
     /books:
         get:
             tags:
                 - Books
-            summary: Get all books
+            summary: Get all books'
             description: The returned books are ordered by updated datetime.
             operationId: getBooks
             parameters:
@@ -22,18 +29,25 @@ paths:
                       type: string
                 #TODO3: add parameter to filter books by intervals of dates of the releaseDate
                 - in: query
-                  name: releaseDate
-                  description: Filter return books by given releaseDate
-                  required: false
+                  name: releaseDateMin
+                  description:
+                      if `releaseDateMax` is not provided , then `releaseDateMin` is ignored.
+                      `releaseDateMin` can not be after `releaseDateMax`
                   schema:
-                      type: object
-                      properties:
-                          from:
-                              type: string
-                              format: date
-                          to:
-                              type: string
-                              format: date
+                      type: string
+                      format: date
+                  required: false
+
+                - in: query
+                  name: releaseDateMax
+                  description:
+                      if `releaseDateMin` is not provided , then `releaseDateMax` is ignored.
+                      `releaseDateMax` can not be before `releaseDateMin`
+                  schema:
+                      type: string
+                      format: date
+                  required: false
+
             responses:
                 200:
                     description: The list of filtered books
@@ -78,6 +92,8 @@ paths:
                   required: false
                   schema:
                       type: string
+                      #   required: false
+
             responses:
                 200:
                     description: The list of authors
@@ -108,6 +124,29 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Author"
+        # delete:
+        #     tags:
+        #         - Authors
+        #     summary: Delete an author by ID
+        #     operationId: deleteAuthor
+        #     parameters:
+        #         - in: path
+        #           name: authorId
+        #           description: The ID of the author to delete
+        #           required: true
+        #           schema:
+        #               type: string
+        #     responses:
+        #         200:
+        #             description: The deleted author
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         $ref: "#/components/schemas/Author"
+
+    # supprimer un auteur par son id via le path (URL) , et retourner l'auteur supprimé
+
+    /author/{id}:
         delete:
             tags:
                 - Authors
@@ -115,7 +154,7 @@ paths:
             operationId: deleteAuthor
             parameters:
                 - in: path
-                  name: authorId
+                  name: id
                   description: The ID of the author to delete
                   required: true
                   schema:
@@ -143,14 +182,16 @@ components:
                 pageNumbers:
                     type: integer
                 topic:
-                    type: string
-                    enum:
-                        - ROMANCE
-                        - COMEDY
-                        - OTHER
+                    $ref: "#/components/schemas/Topic"
                 releaseDate:
                     type: string
                     format: date
+        Topic:
+            type: string
+            enum:
+                - ROMANCE
+                - COMEDY
+                - OTHER
         Author:
             type: object
             properties:
