@@ -229,3 +229,17 @@ components:
                         - F
             required:
                 - id
+        CrupdateBook:
+            type: object
+            properties:
+                id:
+                    type: string
+                bookName:
+                    type: string
+                pageNumbers:
+                    type: integer
+                topic:
+                    $ref: "#/components/schemas/Topic"
+                releaseDate:
+                    type: string
+                    format: date
