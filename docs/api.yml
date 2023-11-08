@@ -348,6 +348,31 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Book"
+    
+    # associate some books to some topics
+
+    /books/topics:
+        put:
+            tags:
+                - Books & Topics
+            summary: Associate some books to some topics
+            operationId: crupdateBooks
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: "#/components/schemas/UpdateBookTopic"
+            responses:
+                200:
+                    description: The list of updated books
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Book"
 components:
     schemas:
         Topic:
@@ -373,8 +398,9 @@ components:
                     enum:
                         - M
                         - F
-            # required:
-            #     - id
+            required:
+                - id
+                
         UpdateBookAuthor:
             type: object
             properties:
@@ -382,6 +408,15 @@ components:
                     type: string
 
                 authorId:
+                    type: string
+
+        UpdateBookTopic:
+            type: object
+            properties:
+                bookId:
+                    type: string
+
+                topicId:
                     type: string
 
         CrupdateBook:
