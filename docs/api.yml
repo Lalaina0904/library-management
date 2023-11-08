@@ -107,6 +107,32 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Book"
+
+    # pour associé plusieurs books -> plusieurs authors
+
+    /books/authors:
+        put:
+            tags:
+                - Books & Authors
+            summary: Associate some books to some authors
+            operationId: crupdateBooks
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: "#/components/schemas/UpdateBookAuthor"
+            responses:
+                200:
+                    description: The list of updated books
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Book"
+
     /authors:
         #TODO2: complete GET (can be filtered by name) - PUT - DELETE
         get:
@@ -222,6 +248,15 @@ components:
                         - F
             required:
                 - id
+        UpdateBookAuthor:
+            type: object
+            properties:
+                bookId:
+                    type: string
+
+                authorId:
+                    type: string
+
         CrupdateBook:
             type: object
             properties:
