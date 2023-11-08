@@ -164,7 +164,25 @@ paths:
                   required: false
                   schema:
                       type: string
-                      #   required: false
+                      required: false
+
+                # Add path for pagination parameters (page and pageSize)
+
+                - in: path
+                  name: page
+                  description: The page number to return
+                  required: false
+                  schema:
+                      type: integer
+                      default: 1
+
+                - in: path
+                  name: pageSize
+                  description: The number of authors per page
+                  required: false
+                  schema:
+                      type: integer
+                      default: 50
 
             responses:
                 200:
@@ -263,8 +281,8 @@ components:
                     enum:
                         - M
                         - F
-            required:
-                - id
+            # required:
+            #     - id
         UpdateBookAuthor:
             type: object
             properties:
