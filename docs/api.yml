@@ -164,14 +164,13 @@ paths:
                   required: false
                   schema:
                       type: string
-                      required: false
 
                 # Add path for pagination parameters (page and pageSize)
 
                 - in: path
                   name: page
                   description: The page number to return
-                  required: false
+                  required: true
                   schema:
                       type: integer
                       default: 1
@@ -179,7 +178,7 @@ paths:
                 - in: path
                   name: pageSize
                   description: The number of authors per page
-                  required: false
+                  required: true
                   schema:
                       type: integer
                       default: 50
