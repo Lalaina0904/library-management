@@ -95,61 +95,6 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Book"
-
-    # pour associé un autheur à un livre
-
-    /books/{bookId}/authors/{authorId}:
-        put:
-            tags:
-                - Books & Authors
-            summary: Associate a single book to one author
-            operationId: crupdateBooks
-            parameters:
-                - in: path
-                  name: bookId
-                  description: The ID of the book to associate
-                  required: true
-                  schema:
-                      type: string
-                - in: path
-                  name: authorId
-                  description: The ID of the author to associate
-                  required: true
-                  schema:
-                      type: string
-            responses:
-                200:
-                    description: The updated book
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Book"
-
-    # pour associé plusieurs books -> plusieurs authors
-
-    /books/authors:
-        put:
-            tags:
-                - Books & Authors
-            summary: Associate some books to some authors
-            operationId: crupdateBooks
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            type: array
-                            items:
-                                $ref: "#/components/schemas/UpdateBookAuthor"
-            responses:
-                200:
-                    description: The list of updated books
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Book"
-
     /authors:
         #TODO2: complete GET (can be filtered by name) - PUT - DELETE
         get:
@@ -164,14 +109,15 @@ paths:
                   required: false
                   schema:
                       type: string
-                      required: false
+                      #   required: false
 
                 # Add path for pagination parameters (page and pageSize)
 
                 - in: path
                   name: page
                   description: The page number to return
-                  required: false
+                  required: true
+                  #   required: false
                   schema:
                       type: integer
                       default: 1
@@ -179,7 +125,8 @@ paths:
                 - in: path
                   name: pageSize
                   description: The number of authors per page
-                  required: false
+                  required: true
+                  #   required: false
                   schema:
                       type: integer
                       default: 50
@@ -260,7 +207,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Author"
-/topics:
+    /topics:
         get:
             tags:
                 - Topics
@@ -273,14 +220,15 @@ paths:
                   required: false
                   schema:
                       type: string
-                      required: false
+                      #   required: false
 
                 # Add path for pagination parameters (page and pageSize)
 
                 - in: path
                   name: page
                   description: The page number to return
-                  required: false
+                  required: true
+                  #   required: false
                   schema:
                       type: integer
                       default: 1
@@ -288,11 +236,12 @@ paths:
                 - in: path
                   name: pageSize
                   description: The number of topics per page
-                  required: false
+                  required: true
+                  #   required: false
                   schema:
                       type: integer
                       default: 50
-                      
+
             responses:
                 200:
                     description: The list of topics
@@ -346,7 +295,80 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Topic"
-                        
+
+    # pour associé un autheur à un livre
+
+    /books/{bookId}/authors/{authorId}:
+        put:
+            tags:
+                - Books & Authors
+            summary: Associate a single book to one author
+            operationId: crupdateBooks
+            parameters:
+                - in: path
+                  name: bookId
+                  description: The ID of the book to associate
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: authorId
+                  description: The ID of the author to associate
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The updated book
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Book"
+
+    # pour associé plusieurs books -> plusieurs authors
+
+    /books/authors:
+        put:
+            tags:
+                - Books & Authors
+            summary: Associate some books to some authors
+            operationId: crupdateBooks
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: "#/components/schemas/UpdateBookAuthor"
+            responses:
+                200:
+                    description: The list of updated books
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Book"
+        delete:
+            tags:
+                - Topics
+            summary: Delete a topic by ID
+            operationId: deleteTopic
+            parameters:
+                - in: path
+                  name: id
+                  description: The ID of the topic to delete
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The deleted topic
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Topic"
+
     # associate a single book to one topic
 
     /books/{bookId}/topics/{topicId}:
@@ -375,7 +397,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Book"
-    
+
     # associate some books to some topics
 
     /books/topics:
@@ -400,6 +422,34 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Book"
+
+    # Créer un point d’entrée GET /authorsTopics qui va retourner une liste de AuthorTopic ayant comme caractéristique (ID de l’author qui est facultatitif, authorName, authorSex, liste de topics où chaque topics continent le topicName).
+
+    /authorsTopics:
+        get:
+            tags:
+                - Authors & Topics
+            summary: Get all authorsTopics
+            operationId: getAuthorsTopics
+            parameters:
+                - in: query
+                  name: authorName
+                  description: Filter authorsTopics by name
+                  required: false
+                  schema:
+                      type: string
+                      #   required: false
+
+            responses:
+                200:
+                    description: The list of authorsTopics
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/AuthorTopic"
+
 components:
     schemas:
         Topic:
@@ -428,24 +478,6 @@ components:
             required:
                 - id
 
-        UpdateBookAuthor:
-            type: object
-            properties:
-                bookId:
-                    type: string
-
-                authorId:
-                    type: string
-
-        UpdateBookTopic:
-            type: object
-            properties:
-                bookId:
-                    type: string
-
-                topicId:
-                    type: string
-
         CrupdateBook:
             type: object
             properties:
@@ -469,3 +501,38 @@ components:
                     $ref: "#/components/schemas/Author"
                 topic:
                     $ref: "#/components/schemas/Topic"
+
+        UpdateBookAuthor:
+            type: object
+            properties:
+                bookId:
+                    type: string
+
+                authorId:
+                    type: string
+
+        UpdateBookTopic:
+            type: object
+            properties:
+                bookId:
+                    type: string
+
+                topicId:
+                    type: string
+
+        AuthorTopic:
+            type: object
+            properties:
+                id:
+                    type: string
+
+                authorName:
+                    type: string
+
+                authorSex:
+                    type: string
+
+                topics:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Topic"
