@@ -260,6 +260,65 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Author"
+/topics:
+        get:
+            tags:
+                - Topics
+            summary: Get all topics
+            operationId: getTopics
+            responses:
+                200:
+                    description: The list of topics
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Topic"
+        put:
+            tags:
+                - Topics
+            summary: Create or update topics
+            operationId: crupdateTopics
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: "#/components/schemas/Topic"
+            responses:
+                200:
+                    description: The list of created or updated topics
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Topic"
+
+    #supprimer un topic par son id via le path (URL) , et retourner le topic supprimé
+    
+    /topic/{id}:
+        delete:
+            tags:
+                - Topics
+            summary: Delete a topic by ID
+            operationId: deleteTopic
+            parameters:
+                - in: path
+                  name: id
+                  description: The ID of the topic to delete
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The deleted topic
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Topic"
 
 components:
     schemas:
