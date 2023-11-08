@@ -48,7 +48,7 @@ paths:
                       format: date
                   required: false
 
-                # Add pagination parameters (page and pageSize)
+                # Add pagination query parameters (page and pageSize)
 
                 - in: query
                   name: page
@@ -164,25 +164,6 @@ paths:
                   required: false
                   schema:
                       type: string
-
-                # Add path for pagination parameters (page and pageSize)
-
-                - in: path
-                  name: page
-                  description: The page number to return
-                  required: true
-                  schema:
-                      type: integer
-                      default: 1
-
-                - in: path
-                  name: pageSize
-                  description: The number of authors per page
-                  required: true
-                  schema:
-                      type: integer
-                      default: 50
-
             responses:
                 200:
                     description: The list of authors
@@ -259,6 +240,39 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Author"
+
+    # Add pagination path parameters (page and pageSize)
+
+    /author/page/{page}/pageSize/{pageSize}:
+        get:
+            tags:
+                - Authors
+            summary: Get all authors
+            operationId: getAuthors
+            parameters:
+                - in: path
+                  name: page
+                  description: The page number to return
+                  required: true
+                  schema:
+                      type: integer
+                      default: 1
+                - in: path
+                  name: pageSize
+                  description: The number of authors per page
+                  required: true
+                  schema:
+                      type: integer
+                      default: 50
+            responses:
+                200:
+                    description: The list of authors
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Author"
 
 components:
     schemas:
