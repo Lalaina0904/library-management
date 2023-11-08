@@ -78,6 +78,35 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Book"
+
+    # pour associé un autheur à un livre
+
+    /books/{bookId}/authors/{authorId}:
+        put:
+            tags:
+                - Books & Authors
+            summary: Associate a single book to one author
+            operationId: crupdateBooks
+            parameters:
+                - in: path
+                  name: bookId
+                  description: The ID of the book to associate
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: authorId
+                  description: The ID of the author to associate
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The updated book
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Book"
     /authors:
         #TODO2: complete GET (can be filtered by name) - PUT - DELETE
         get:
