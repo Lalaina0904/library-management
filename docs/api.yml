@@ -264,11 +264,16 @@ paths:
 components:
     schemas:
         Topic:
-            type: string
-            enum:
-                - ROMANCE
-                - COMEDY
-                - OTHER
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                    enum:
+                        - ROMANCE
+                        - COMEDY
+                        - OTHER
         Author:
             type: object
             properties:
