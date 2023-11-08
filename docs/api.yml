@@ -124,54 +124,12 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Author"
-        # delete:
-        #     tags:
-        #         - Authors
-        #     summary: Delete an author by ID
-        #     operationId: deleteAuthor
-        #     parameters:
-        #         - in: path
-        #           name: authorId
-        #           description: The ID of the author to delete
-        #           required: true
-        #           schema:
-        #               type: string
-        #     responses:
-        #         200:
-        #             description: The deleted author
-        #             content:
-        #                 application/json:
-        #                     schema:
-        #                         $ref: "#/components/schemas/Author"
-
-        # supprimer un auteur par son id via le path (URL) , et retourner l'auteur supprimé
-
-        # /author/{id}:
-        #     delete:
-        #         tags:
-        #             - Authors
-        #         summary: Delete an author by ID
-        #         operationId: deleteAuthor
-        #         parameters:
-        #             - in: path
-        #               name: id
-        #               description: The ID of the author to delete
-        #               required: true
-        #               schema:
-        #                   type: string
-        #         responses:
-        #             200:
-        #                 description: The deleted author
-        #                 content:
-        #                     application/json:
-        #                         schema:
-        #                             $ref: "#/components/schemas/Author"
 
         # TODO4 - vidéos : si ce n'était pas un param (un seul author) mais plusieurs author à supprimer , comment on ferait ?
         delete:
             tags:
                 - Authors
-            summary: Delete many authors by ID
+            summary: Delete many authors
             operationId: deleteAuthors
             requestBody:
                 content:
@@ -189,6 +147,29 @@ paths:
                                 type: array
                                 items:
                                     $ref: "#/components/schemas/Author"
+
+    # supprimer un auteur par son id via le path (URL) , et retourner l'auteur supprimé
+
+    /author/{id}:
+        delete:
+            tags:
+                - Authors
+            summary: Delete an author by ID
+            operationId: deleteAuthor
+            parameters:
+                - in: path
+                  name: id
+                  description: The ID of the author to delete
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The deleted author
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Author"
 
 components:
     schemas:
