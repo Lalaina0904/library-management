@@ -266,6 +266,33 @@ paths:
                 - Topics
             summary: Get all topics
             operationId: getTopics
+            parameters:
+                - in: query
+                  name: topicName
+                  description: Filter topics by name
+                  required: false
+                  schema:
+                      type: string
+                      required: false
+
+                # Add path for pagination parameters (page and pageSize)
+
+                - in: path
+                  name: page
+                  description: The page number to return
+                  required: false
+                  schema:
+                      type: integer
+                      default: 1
+
+                - in: path
+                  name: pageSize
+                  description: The number of topics per page
+                  required: false
+                  schema:
+                      type: integer
+                      default: 50
+                      
             responses:
                 200:
                     description: The list of topics
@@ -400,7 +427,7 @@ components:
                         - F
             required:
                 - id
-                
+
         UpdateBookAuthor:
             type: object
             properties:
