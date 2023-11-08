@@ -298,7 +298,7 @@ paths:
                                     $ref: "#/components/schemas/Topic"
 
     #supprimer un topic par son id via le path (URL) , et retourner le topic supprimé
-    
+
     /topic/{id}:
         delete:
             tags:
@@ -319,7 +319,35 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Topic"
+                        
+    # associate a single book to one topic
 
+    /books/{bookId}/topics/{topicId}:
+        put:
+            tags:
+                - Books & Topics
+            summary: Associate a single book to one topic
+            operationId: crupdateBooks
+            parameters:
+                - in: path
+                  name: bookId
+                  description: The ID of the book to associate
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: topicId
+                  description: The ID of the topic to associate
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The updated book
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Book"
 components:
     schemas:
         Topic:
