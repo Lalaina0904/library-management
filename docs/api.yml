@@ -48,6 +48,23 @@ paths:
                       format: date
                   required: false
 
+                # Add pagination parameters (page and pageSize)
+
+                - in: query
+                  name: page
+                  description: The page number to return
+                  required: false
+                  schema:
+                      type: integer
+                      default: 1
+                - in: query
+                  name: pageSize
+                  description: The number of books per page
+                  required: false
+                  schema:
+                      type: integer
+                      default: 50
+
             responses:
                 200:
                     description: The list of filtered books
