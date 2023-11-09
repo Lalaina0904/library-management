@@ -104,7 +104,8 @@ paths:
                         schema:
                             type: array
                             items:
-                                $ref: "#/components/schemas/CrupdateBook"
+                                oneOf:
+                                    - $ref: "#/components/schemas/ImportBook"
 
             responses:
                 200:
@@ -275,15 +276,8 @@ paths:
                         schema:
                             type: array
                             items:
-                                $ref: "#/components/schemas/Author"
-                    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
-                        schema:
-                            type: object
-                            properties:
-                                file: # Nom du paramètre dans la requête
-                                    type: string
-                            required:
-                                - file
+                                oneOf:
+                                    - $ref: "#/components/schemas/ImportAuthor"
             responses:
                 200:
                     description: List of imported authors
@@ -673,6 +667,34 @@ components:
         Response500:
             allOf:
                 - $ref: "#/components/schemas/Responses"
+
+        ImportBook:
+            type: object
+            properties:
+                bookName:
+                    type: string
+                author:
+                    $ref: "#/components/schemas/Author"
+                pageNumbers:
+                    type: integer
+                topic:
+                    $ref: "#/components/schemas/Topic"
+                releaseDate:
+                    type: string
+                    format: date
+                idAuthor:
+                    type: string
+
+        ImportAuthor:
+            type: object
+            properties:
+                authorName:
+                    type: string
+                sex:
+                    type: string
+            required:
+                - authorName
+                - sex
 
     parameters:
         queryPagination:
