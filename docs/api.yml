@@ -48,22 +48,16 @@ paths:
                       format: date
                   required: false
 
-                # Add pagination parameters (page and pageSize)
+                # use pagination parameters (page and pageSize) in query parameters (queryPagination - a custom parameter defined in components)
 
                 - in: query
-                  name: page
-                  description: The page number to return
-                  required: false
+                  name: queryPagination
+                  description: query paramrter for pagination
+                  required: true
                   schema:
-                      type: integer
-                      default: 1
-                - in: query
-                  name: pageSize
-                  description: The number of books per page
-                  required: false
-                  schema:
-                      type: integer
-                      default: 50
+                      type: array
+                      items:
+                          $ref: "#/components/parameters/queryPagination"
 
             responses:
                 200:
@@ -188,32 +182,30 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Author"
 
-    # Add pagination path parameters (page and pageSize)
+    # replace parameter by path parameter (pathPagination - a custom parameter defined in components)
 
     /author/page/{page}/pageSize/{pageSize}:
         get:
             tags:
-                - Authors
-            summary: Get all authors
-            operationId: getAuthors
+                - Author
+            summary: get author per page
+            operationId: getAuthorPerPage
             parameters:
                 - in: path
-                  name: page
-                  description: The page number to return
-                  required: true
-                  schema:
-                      type: integer
-                      default: 1
-                - in: path
                   name: pageSize
-                  description: The number of authors per page
                   required: true
+                  description: get an author by page and size
                   schema:
-                      type: integer
-                      default: 50
+                      $ref: "#/components/parameters/pathPagination/schema/properties/pageSize"
+                - in: path
+                  name: page
+                  required: true
+                  description: get an author by page and size
+                  schema:
+                      $ref: "#/components/parameters/pathPagination/schema/properties/page"
             responses:
-                200:
-                    description: The list of authors
+                "200":
+                    description: list of authors
                     content:
                         application/json:
                             schema:
@@ -550,3 +542,34 @@ components:
                     type: array
                     items:
                         $ref: "#/components/schemas/Topic"
+
+    parameters:
+        queryPagination:
+            in: query
+            name: queryPagination
+            description: query paramrter for pagination
+            required: true
+            schema:
+                type: object
+                properties:
+                    page:
+                        type: integer
+                        default: 1
+                    pageSize:
+                        type: integer
+                        default: 50
+
+        pathPagination:
+            in: path
+            name: pathPagination
+            description: path paramrter for pagination
+            required: true
+            schema:
+                type: object
+                properties:
+                    page:
+                        type: integer
+                        default: 1
+                    pageSize:
+                        type: integer
+                        default: 50
