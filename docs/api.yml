@@ -543,6 +543,35 @@ components:
                     items:
                         $ref: "#/components/schemas/Topic"
 
+        Responses:
+            type: object
+            properties:
+                status:
+                    type: object
+                    properties:
+                        status_code:
+                            type: string
+                        message:
+                            type: string
+                body:
+                    type: object
+
+        Response200:
+            allOf:
+                - $ref: "#/components/schemas/Responses"
+
+        Response400:
+            allOf:
+                - $ref: "#/components/schemas/Responses"
+
+        Response403:
+            allOf:
+                - $ref: "#/components/schemas/Responses"
+
+        Response500:
+            allOf:
+                - $ref: "#/components/schemas/Responses"
+
     parameters:
         queryPagination:
             in: query
