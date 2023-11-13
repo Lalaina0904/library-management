@@ -50,15 +50,11 @@ paths:
 
                 # use pagination parameters (page and pageSize) in query parameters (queryPagination - a custom parameter defined in components)
 
-                - in: query
-                  name: queryPagination
-                  description: query paramrter for pagination
-                  required: true
-                  schema:
-                      type: array
-                      items:
-                          $ref: "#/components/parameters/queryPagination"
+                # - $ref: "#/components/parameters/queryPagination"
 
+                #CORRECTION TD3
+                - $ref: "#/components/parameters/Page"
+                - $ref: "#/components/parameters/PageSize"
             responses:
                 200:
                     description: The list of filtered books
@@ -247,13 +243,13 @@ paths:
                   required: true
                   description: get an author by page and size
                   schema:
-                      $ref: "#/components/parameters/pathPagination/schema/properties/pageSize"
+                      $ref: "#/components/parameters/PageSize"
                 - in: path
                   name: page
                   required: true
                   description: get an author by page and size
                   schema:
-                      $ref: "#/components/parameters/pathPagination/schema/properties/page"
+                      $ref: "#/components/parameters/Page"
             responses:
                 "200":
                     description: list of authors
@@ -697,20 +693,38 @@ components:
                 - sex
 
     parameters:
-        queryPagination:
+        #CORRECTION TD3
+        Page:
             in: query
-            name: queryPagination
-            description: query paramrter for pagination
-            required: true
+            name: page
+            description: The page number to return
+            required: false
             schema:
-                type: object
-                properties:
-                    page:
-                        type: integer
-                        default: 1
-                    pageSize:
-                        type: integer
-                        default: 50
+                type: integer
+                default: 1
+        PageSize:
+            in: query
+            name: pageSize
+            description: The number of topics per page
+            required: false
+            schema:
+                type: integer
+                default: 50
+
+        # queryPagination:
+        #     in: query
+        #     name: queryPagination
+        #     description: query paramrter for pagination
+        #     required: true
+        #     schema:
+        #         type: object
+        #         properties:
+        #             page:
+        #                 type: integer
+        #                 default: 1
+        #             pageSize:
+        #                 type: integer
+        #                 default: 50
 
         pathPagination:
             in: path
