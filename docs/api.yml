@@ -48,22 +48,14 @@ paths:
                       format: date
                   required: false
 
-                # use pagination parameters (page and pageSize) in query parameters (queryPagination - a custom parameter defined in components)
-
-                # - $ref: "#/components/parameters/queryPagination"
-
                 #CORRECTION TD3
                 - $ref: "#/components/parameters/Page"
                 - $ref: "#/components/parameters/PageSize"
             responses:
                 200:
-                    description: The list of filtered books
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Book"
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
         put:
             tags:
                 - Books
@@ -78,15 +70,9 @@ paths:
                                 $ref: "#/components/schemas/CrupdateBook"
             responses:
                 200:
-                    description: The list of created or updated books
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Book"
-
-    # pour
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
 
     /books/import:
         post:
@@ -105,37 +91,9 @@ paths:
 
             responses:
                 200:
-                    description: List of imported books
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Book"
-
-                # utiliser les autres réponses (Response400, Response403, Response500) pour les autres cas d'erreur , et ref à la définition de ces réponses dans components
+                    $ref: "#/components/responses/BookList_200"
                 400:
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response400"
-                403:
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response403"
-                500:
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response500"
-
+                    $ref: "#/components/responses/400"
     /authors:
         #TODO2: complete GET (can be filtered by name) - PUT - DELETE
         get:
@@ -154,13 +112,9 @@ paths:
 
             responses:
                 200:
-                    description: The list of authors
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Author"
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
         put:
             tags:
                 - Authors
@@ -175,13 +129,9 @@ paths:
                                 $ref: "#/components/schemas/Author"
             responses:
                 200:
-                    description: The list of created or updated authors
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Author"
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
 
         # TODO4 - vidéos : si ce n'était pas un param (un seul author) mais plusieurs author à supprimer , comment on ferait ?
         delete:
@@ -223,11 +173,9 @@ paths:
                       type: string
             responses:
                 200:
-                    description: The deleted author
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Author"
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
 
     # replace parameter by path parameter (pathPagination - a custom parameter defined in components)
 
@@ -251,14 +199,10 @@ paths:
                   schema:
                       $ref: "#/components/parameters/Page"
             responses:
-                "200":
-                    description: list of authors
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Author"
+                200:
+                    $ref: "#/components/responses/BookList_200"
+                400:
+                    $ref: "#/components/responses/400"
 
     /authors/import:
         post:
@@ -276,35 +220,9 @@ paths:
                                     - $ref: "#/components/schemas/ImportAuthor"
             responses:
                 200:
-                    description: List of imported authors
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#/components/schemas/Author"
+                    $ref: "#/components/responses/BookList_200"
                 400:
-                    description: Bad request
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response400"
-                403:
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response403"
-                500:
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                $ref: "#/components/schemas/Response500"
-
+                    $ref: "#/components/responses/400"
     /topics:
         get:
             tags:
@@ -313,7 +231,7 @@ paths:
             operationId: getTopics
             parameters:
                 - in: query
-                  name: topicName
+                  name: topicNam
                   description: Filter topics by name
                   required: false
                   schema:
@@ -590,15 +508,6 @@ components:
                 releaseDate:
                     type: string
                     format: date
-        Book:
-            allOf:
-                - $ref: "#/components/schemas/CrupdateBook"
-                - type: object
-            properties:
-                author:
-                    $ref: "#/components/schemas/Author"
-                topic:
-                    $ref: "#/components/schemas/Topic"
 
         UpdateBookAuthor:
             type: object
@@ -635,35 +544,6 @@ components:
                     items:
                         $ref: "#/components/schemas/Topic"
 
-        Responses:
-            type: object
-            properties:
-                status:
-                    type: object
-                    properties:
-                        status_code:
-                            type: string
-                        message:
-                            type: string
-                body:
-                    type: object
-
-        Response200:
-            allOf:
-                - $ref: "#/components/schemas/Responses"
-
-        Response400:
-            allOf:
-                - $ref: "#/components/schemas/Responses"
-
-        Response403:
-            allOf:
-                - $ref: "#/components/schemas/Responses"
-
-        Response500:
-            allOf:
-                - $ref: "#/components/schemas/Responses"
-
         ImportBook:
             type: object
             properties:
@@ -691,6 +571,51 @@ components:
             required:
                 - authorName
                 - sex
+
+        ResponseStatus:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    example: 200
+                message:
+                    type: string
+                    example: OK
+
+        ResponseBodyTemplate:
+            type: object
+            properties:
+                status:
+                    $ref: "#/components/schemas/ResponseStatus"
+                body:
+                    type: object
+
+        BadRequestBody:
+            allOf:
+                - $ref: "#/components/schemas/ResponseBodyTemplate"
+            example:
+                status:
+                    code: 400
+                    message: Bad request
+                body: {}
+
+        BookListBody:
+            allOf:
+                - $ref: "#/components/schemas/ResponseBodyTemplate"
+                - properties:
+                      body:
+                          type: array
+                          items:
+                              $ref: "#/components/schemas/Book"
+
+        Book:
+            allOf:
+                - $ref: "#/components/schemas/CrupdateBook"
+            properties:
+                author:
+                    $ref: "#/components/schemas/Author"
+                topic:
+                    $ref: "#/components/schemas/Topic"
 
     parameters:
         #CORRECTION TD3
@@ -740,3 +665,16 @@ components:
                     pageSize:
                         type: integer
                         default: 50
+    responses:
+        BookList_200:
+            description: The list of filtered books
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/BookListBody"
+        400:
+            description: Bad request
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/BadRequestBody"
